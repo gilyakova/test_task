@@ -12,7 +12,7 @@ use PDF;
 
 class AppointmentsController extends Controller
 {
-    function __construct() { Artisan::call('view:clear'); }
+    //function __construct() { Artisan::call('view:clear'); }
 
     /**
      *
