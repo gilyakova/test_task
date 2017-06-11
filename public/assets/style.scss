@@ -1,0 +1,22 @@
+// import some libs
+@import './vendor/tether/src/css/tether';
+@import './vendor/bootstrap/scss/bootstrap';
+@import './vendor/rippleria/css/jquery.rippleria';
+@import './vendor/mdi/scss/materialdesignicons';
+// @import './vendor/photobox/photobox/photobox';
+// @import './vendor/slick-carousel/slick/slick.scss';
+
+// import basic stylesheets
+@import './sass/base/bootstrap_narrow_jumbotron';
+@import './sass/base/sprite';
+@import './sass/base/variables';
+@import './sass/base/mixins';
+@import './sass/base/base';
+
+// import template styles
+@import './sass/template/header';
+@import './sass/template/footer';
+@import './sass/template/main-template';
+
+// import pages styles
+@import './sass/pages/index';
