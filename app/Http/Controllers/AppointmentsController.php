@@ -8,6 +8,7 @@ use App\Company;
 use App\Person;
 use Illuminate\Support\Facades\Artisan;
 use Redirect;
+use PDF;
 
 class AppointmentsController extends Controller
 {
@@ -28,9 +29,8 @@ class AppointmentsController extends Controller
     public function get_csv(Appointment $appointment)
     {
         $data = $appointment->list_all();
-        $data = $appointment->list_all();
         $f = fopen('php://memory', 'w'); 
-        fputcsv($f, array('id', 'status', 'datetime', 'place', 'contacts', 'note', 'company name', 'company address', 'company postal code', 'URL', 'person', 'person telephone', 'person email', 'person salutation'), ';'); 
+        fputcsv($f, array('id', 'status', 'datetime', 'place', 'contact information', 'note', 'company name', 'company address', 'company postal code', 'URL', 'person', 'person telephone', 'person email', 'person salutation'), ';'); 
         foreach ($data as $r)
         { 
             $arr = [
@@ -63,6 +63,42 @@ class AppointmentsController extends Controller
         header('Content-Length: ' . $size);
         // I think dialog doesn't work in all browser
         fpassthru($f);
+    }
+
+    /**
+     * Download pdf file
+     */
+    public function get_pdf(Appointment $appointment)
+    {
+        $html = '<h1>Appointment list</h1>';
+
+        $data = $appointment->list_all();
+        $html .= '<table><tbody>';
+        foreach ($data as $r)
+        { 
+            $html .= "<tr style='background:#eee;'>"
+                    ."<td>#{$r->id}</td>"
+                    ."<td>{$r->status}</td>"
+                    ."<td>{$r->datetime}</td>"
+                    ."<td>{$r->place}</td></tr>";
+            $html .= "<tr><td colspan='4'>Contact information: {$r->contacts}</td></tr>";
+            $html .= "<tr><td colspan='4'>Note: {$r->note}</td></tr>";
+            $html .= "<tr>"
+                    ."<td>Company name: {$r->company->name}</td>"
+                    ."<td>Company address: {$r->company->locality}, {$r->company->street}, {$r->company->house_number}</td>"
+                    ."<td>".($r->company->postal_code ? "Postal code: {$r->company->postal_code}" : '')."</td>"
+                    ."<td>".($r->company->url ? "Company URL: {$r->company->url}" : '')."</td>"
+                    ."</tr>";
+            $html .= "<tr>"
+                    ."<td>".($r->person ? "Person name: {$r->person->first_name} {$r->person->last_name}" : '')."</td>"
+                    ."<td>".($r->person ? "Person telephone: {$r->person->telephone}" : '')."</td>"
+                    ."<td>".($r->person ? "Person email: {$r->person->email}" : '')."</td>"
+                    ."<td>".($r->person ? "Salutation: {$r->person->salutation}" : '')."</td>"
+                    ."</tr>";
+        }
+        $html .= '</tbody></table>';
+        $pdf = PDF::loadHTML($html);
+        return $pdf->download('appointments.pdf');
     }
 
     /**

@@ -13,6 +13,7 @@
 
 Route::get('/', 'AppointmentsController@index');
 Route::get('/get_csv/', 'AppointmentsController@get_csv');
+Route::get('/get_pdf/', 'AppointmentsController@get_pdf');
 Route::get('/create/', 'AppointmentsController@create');
 Route::get('/get_people/{company_id}', 'AppointmentsController@get_people');
 Route::post('/store/', 'AppointmentsController@store');

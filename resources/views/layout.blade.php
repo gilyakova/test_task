@@ -20,6 +20,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/get_csv">Download all appointments</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/get_pdf">Download pdf</a>
+                        </li>
                     </ul>
                 </nav>
                 <div class="h3 text-muted">Appointments</div>
