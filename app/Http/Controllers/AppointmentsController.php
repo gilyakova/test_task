@@ -12,6 +12,7 @@ use PDF;
 
 class AppointmentsController extends Controller
 {
+    private $token = '8542516f8870173d7d1daba1daaaf0a1';
     //function __construct() { Artisan::call('view:clear'); }
 
     /**
@@ -212,6 +213,10 @@ class AppointmentsController extends Controller
      */
     public function get_appoinpent_list(Appointment $appointment, Request $request)
     {
+        if ($this->token != $request->input('token'))
+        {
+            die(json_encode(array('result' => 'ERROR', 'message' => 'Auth field')));
+        }
         if ( ! $request->input('limit') || intval($request->input('limit')) > 1000 || intval($request->input('limit')) < 1)
         {
             $limit = 10;

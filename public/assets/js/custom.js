@@ -60,7 +60,7 @@ function showAppointments() {
         type: "GET",
         async: true,
         dataType: "json",
-        data: {status: status, limit: limit, page: page},
+        data: {token: '8542516f8870173d7d1daba1daaaf0a1', status: status, limit: limit, page: page},
         url: '/get_appoinpent_list',
         success: function(answer) {
             if (answer != undefined && answer.result == 'OK') {
